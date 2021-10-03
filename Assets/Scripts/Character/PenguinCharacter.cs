@@ -19,8 +19,8 @@ public class PenguinCharacter : Character
 		if (!destroyed && collision.gameObject != null) {
 			GameObject obj = collision.gameObject;
 			Destructible destructible = obj.GetComponent<Destructible>();
-			if (destructible != null) {
-				Destroy(obj);
+			if (destructible != null && !destructible.destroyed) {
+				destructible.DestroyObject();
 				DestroyCharacter();
 			}
 		}

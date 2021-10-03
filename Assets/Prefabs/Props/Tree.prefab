@@ -58,6 +58,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e463ae998d558f4993aca427c062ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chunkPrefabList:
+  - {fileID: 2011288422969934186, guid: 0a0cd52b75757944d8697a72ada080be, type: 3}
+  - {fileID: 7576111615654695193, guid: faeb66b1dd293e8409e062bf3484966a, type: 3}
+  chunkSpawnOffset: {x: 0, y: 2, z: 0}
+  destroyed: 0
 --- !u!1001 &7957691950417567002
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -82,8 +82,10 @@ public class Character : MonoBehaviour
 	protected virtual void FixedUpdate()
 	{
 		if (rb != null && knockbackTime <= 0) {
+			Vector3 newVelocity = new Vector3(
+				moveDirection.x, 0, moveDirection.y).normalized*movementSpeed;
 			rb.velocity = (!destroyed) ?
-				new Vector3(moveDirection.x, 0, moveDirection.y).normalized*movementSpeed
+				new Vector3(newVelocity.x, rb.velocity.y, newVelocity.z)
 					: new Vector3(0,0,0);
 		}
 	}
