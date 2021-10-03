@@ -2,20 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : Controller
+public class EnemyController : NPCController
 {
 	public float aggroRange = 12f;
 	public float chaseRange = 30f;
-	public float followDelay = 0.3f;
-	
-    protected float currentFollowDelay;
-	
-	protected GameObject playerObject;
-	protected PlayerController playerController;
-	protected Character playerCharacter;
-	
-	protected float playerDistance;
-	protected float previousPlayerDistance;
 	
 	protected bool aggro;
 	
@@ -23,26 +13,13 @@ public class EnemyController : Controller
 	{
 		base.Awake();
 		
-		playerObject = GameObject.FindWithTag("Player");
-		if (playerObject != null) {
-			playerCharacter = playerObject.GetComponent<Character>();
-			playerController = playerObject.GetComponent<PlayerController>();
-		}
-		
-		playerDistance = 20;
-		previousPlayerDistance = 20;
 		aggro = false;
 	}
 	
 	protected override void Update()
 	{
 		base.Update();
-		
-		if (character != null) {
-			character.moveDirection = inputDirection;
-		}
-		
-		currentFollowDelay = (currentFollowDelay > 0) ? (currentFollowDelay - Time.deltaTime) : 0;
+	
 	}
 	
 	protected override void GetInput()
@@ -67,15 +44,6 @@ public class EnemyController : Controller
 				inputDirection = new Vector2(0,0);
 			}
 			previousPlayerDistance = playerDistance;
-		}
-	}
-	
-	protected virtual void GetPlayerDistance()
-	{
-		if (playerObject != null) {
-			previousPlayerDistance = playerDistance;
-			playerDistance = 
-				(transform.position-playerObject.transform.position).magnitude;
 		}
 	}
 }

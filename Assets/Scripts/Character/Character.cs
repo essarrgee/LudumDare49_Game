@@ -6,7 +6,10 @@ public class Character : MonoBehaviour
 {
 	public SpriteRenderer sprite;
 	
+	public int maxHealth = 100;
 	public float movementSpeed = 20f;
+	
+	protected int currentHealth;
 	
 	public Vector2 moveDirection;
 	protected Vector2 faceDirection;
@@ -17,15 +20,23 @@ public class Character : MonoBehaviour
 	
 	protected float lastAnimatorDirection;
 	
+	protected float knockbackTime;
+	protected bool destroyed;
+	
     protected virtual void Awake()
     {
 		rb = GetComponent<Rigidbody>();
 		animator = GetComponent<Animator>();
 		controller = GetComponent<Controller>();
 		
+		currentHealth = maxHealth;
+		
         moveDirection = new Vector2(0,0);
 		faceDirection = new Vector2(0,-1); // Front by default
 		lastAnimatorDirection = -1; // Front by default
+		
+		knockbackTime = 0;
+		destroyed = false;
     }
 
     protected virtual void Update()
@@ -60,21 +71,57 @@ public class Character : MonoBehaviour
 			}
 		}
 		
+		if (!destroyed && currentHealth <= 0) {
+			DestroyCharacter();
+		}
+		
+		knockbackTime = (knockbackTime > 0) ? knockbackTime - Time.deltaTime : 0;
+		
     }
 	
 	protected virtual void FixedUpdate()
 	{
-		if (rb != null) {
-			rb.velocity = 
-				new Vector3(moveDirection.x, 0, moveDirection.y).normalized*movementSpeed;
+		if (rb != null && knockbackTime <= 0) {
+			rb.velocity = (!destroyed) ?
+				new Vector3(moveDirection.x, 0, moveDirection.y).normalized*movementSpeed
+					: new Vector3(0,0,0);
 		}
 	}
 	
 	public virtual void DestroyCharacter()
 	{
-		if (controller != null) {
-			controller.DestroyController();
+		if (!destroyed) {
+			destroyed = true;
+			
+			if (controller != null) {
+				controller.DestroyController();
+			}
+			if (animator != null) {
+				animator.SetBool("Destroy", true);
+			}
+			
+			Destroy(gameObject, 3f);
 		}
-		Destroy(gameObject, 0.1f);
+	}
+	
+	public virtual void Damage(int damage)
+	{
+		if (!destroyed) {
+			currentHealth = (currentHealth + damage > 0) ? currentHealth + damage
+				: 0;
+		}
+	}
+	
+	public virtual void Damage(int damage, Transform hitbox, float knockback, 
+	float knockbackTime)
+	{
+		if (!destroyed && knockback != 0 && rb != null && hitbox != null) {
+			this.knockbackTime = knockbackTime;
+			rb.AddForce(
+				(transform.position - hitbox.position).normalized*knockback,
+				ForceMode.Impulse);
+		}
+		
+		Damage(damage);
 	}
 }

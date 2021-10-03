@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 8609834316438724330}
+  maxHealth: 100
   movementSpeed: 4.5
   moveDirection: {x: 0, y: 0}
 --- !u!114 &4959532404347863390
@@ -30,6 +31,8 @@ MonoBehaviour:
   lockInput: 0
   leaderObject: {fileID: 0}
   followerObject: {fileID: 0}
+  followDelay: 0.15
+  escapeRange: 1.5
 --- !u!1001 &1019115833776462032
 PrefabInstance:
   m_ObjectHideFlags: 0
