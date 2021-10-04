@@ -28,6 +28,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkPrefabList: []
+  chunkSpawnOffset: {x: 0, y: 0, z: 0}
   destroyed: 0
 --- !u!114 &6222401388802611793
 MonoBehaviour:
@@ -45,8 +46,8 @@ MonoBehaviour:
   leaderObject: {fileID: 0}
   followerObject: {fileID: 0}
   followDelay: 0.2
-  aggroRange: 9
-  chaseRange: 20
+  aggroRange: 6
+  chaseRange: 12
 --- !u!1001 &5726420573411509359
 PrefabInstance:
   m_ObjectHideFlags: 0

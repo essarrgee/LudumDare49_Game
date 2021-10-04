@@ -25,7 +25,7 @@ public class EnemyController : NPCController
 	protected override void GetInput()
 	{
 		inputDirection = new Vector2(0,0);
-		if (playerObject != null) {
+		if (playerObject != null && playerCharacter != null) {
 			Vector3 direction3D = playerObject.transform.position - transform.position;
 			playerDistance = direction3D.magnitude;
 			if (previousPlayerDistance >= chaseRange && !aggro) {
