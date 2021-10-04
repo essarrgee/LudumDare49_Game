@@ -49,14 +49,15 @@ MonoBehaviour:
   elevatorPrefab: {fileID: 8164070636295867618, guid: fa8baa89ede770d42893a65325eda267, type: 3}
   elevatorSpawnPrefab: {fileID: 2333016550660442298, guid: 3b316c7e13f4ff14786864af37eaa75e, type: 3}
   dropOffZonePrefab: {fileID: 8240422163677584171, guid: 32fa0a270b1102449ae9db8784faa387, type: 3}
+  dropOffZoneRequiredAmount: 1
   propPrefabList:
   - {fileID: 7957691950820682770, guid: 52ad7fbf7a85b844388375bd57e0960e, type: 3}
   - {fileID: 6794424393526403150, guid: 83b71df2638f8c84d859ac6e9a791a4b, type: 3}
-  propCountList: 0600000004000000
+  propCountList: 0a00000006000000
   activeEnemyCount: 5
   enemyPrefabList:
   - {fileID: 4082941670831071327, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}
-  activePenguinCount: 7
+  activePenguinCount: 4
   penguinPrefab: {fileID: 8788053982687853792, guid: fbb456cba056d834990616aa9aa9e286, type: 3}
 --- !u!1 &8112755898748178700
 GameObject:

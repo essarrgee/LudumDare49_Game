@@ -9,11 +9,31 @@ public class Elevator : MonoBehaviour
 	
 	protected bool movingUp;
 	
+	protected GameObject gameManagerObject;
+	protected GameManager gameManager;
+	protected bool endedScene;
+	
     protected virtual void Awake()
 	{
 		movingUp = false;
 		
 		SetStartPosition(startPosition);
+		
+		gameManagerObject = GameObject.FindWithTag("GameManager");
+		if (gameManagerObject != null) {
+			gameManager = gameManagerObject.GetComponent<GameManager>();
+		}
+		endedScene = false;
+	}
+	
+	protected virtual void Update()
+	{
+		if (Mathf.Abs(goalPosition.y - transform.position.y) <= 15f 
+		&& movingUp && !endedScene && gameManager != null) {
+			// End Scene, load next level
+			endedScene = true;
+			gameManager.StartNextLevel();
+		}
 	}
 	
 	protected virtual void FixedUpdate()

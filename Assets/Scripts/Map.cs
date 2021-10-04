@@ -53,12 +53,12 @@ public class Map : MonoBehaviour
 		elevatorLocation = new int[3];
 		elevatorSpawnLocationPool = new List<int[]>();
 		dropOffZoneRequiredAmount = dropOffZoneRequiredAmount
-			+ Mathf.Max((int)Mathf.Floor(DataManager.floorLevel/2), 6);
+			+ Mathf.Min((int)Mathf.Floor(DataManager.floorLevel/2), 10);
 		
 		propPool = new Dictionary<GameObject, int>();
 		for (int i=0; i<propPrefabList.Count; i++) {
-			propPool.Add(propPrefabList[i], 
-				propCountList[i]*(DataManager.floorLevel+1));
+			propPool.Add(propPrefabList[i], propCountList[i]
+				*Mathf.Min((int)Mathf.Floor(DataManager.floorLevel/2)+1, 6));
 		}
 		
 		GenerateSections();
@@ -69,6 +69,9 @@ public class Map : MonoBehaviour
 			playerObject.transform.position = 
 				elevatorSpawnObject.transform.position + new Vector3(0,0.31f,0);
 		}
+		
+		activeEnemyCount += Mathf.Min((int)Mathf.Floor(DataManager.floorLevel/2), 15);
+		activePenguinCount += Mathf.Min((int)Mathf.Floor(DataManager.floorLevel/2), 10);
 		
 		activeEnemiesSet = new HashSet<GameObject>();
 		activePenguinsSet = new HashSet<GameObject>();
@@ -268,15 +271,16 @@ public class Map : MonoBehaviour
 								int[] newCell = 
 									new int[] {i, startCell[0] + x, 
 										startCell[1] - y};
-								if (newCell[2] < -4 && newCell[2] >= -37) { 
+								if (newCell[2] < -8 && newCell[2] >= -37) { 
 									// Exclude first and last few rows
 									mapGrid[i].Add(newCell);
 								}
 								else if (newCell[2] == -39 
-									&& newCell[1] >= 10 && newCell[1] <= 30) {
+								&& newCell[1] >= 10 && newCell[1] <= 30) {
 									elevatorSpawnLocationPool.Add(newCell);
 								}
-								else if (newCell[2] == -1) {
+								else if (newCell[2] == -1
+								&& newCell[1] >= 5 && newCell[1] <= 35) {
 									elevatorLocationPool.Add(newCell);
 								}
 							}
@@ -287,6 +291,7 @@ public class Map : MonoBehaviour
 				if (i == elevatorSectionIndex) {
 					int index = Random.Range(0,elevatorLocationPool.Count);
 					elevatorLocation = elevatorLocationPool[index];
+					elevatorLocationPool.RemoveAt(index);
 					mapGrid[i].Remove(elevatorLocation);
 				}
 				
