@@ -10,6 +10,8 @@ public class Map : MonoBehaviour
 	[Header("Props")]
 	public GameObject elevatorPrefab;
 	public GameObject elevatorSpawnPrefab;
+	public GameObject dropOffZonePrefab;
+	public int dropOffZoneRequiredAmount = 1;
 	public List<GameObject> propPrefabList;
 	[Tooltip("Mapped by index to propPrefabList")]
 	public List<int> propCountList;
@@ -18,14 +20,31 @@ public class Map : MonoBehaviour
 	protected List<int[]> elevatorLocationPool;
 	protected List<int[]> elevatorSpawnLocationPool; // Location for spawn
 	protected int[] elevatorLocation;
+	protected List<int[]> totalCells; // Store all available cells in map grid
 	
 	protected Dictionary<GameObject, int> propPool;
 	
 	protected GameObject elevatorSpawnObject;
 	protected GameObject elevatorObject;
 	protected Elevator elevator;
+	protected GameObject dropOffZoneObject;
+	protected DropOffZone dropOffZone;
 	
 	protected GameObject playerObject;
+	
+	[Header("Enemy")]
+	public int activeEnemyCount = 5;
+	public List<GameObject> enemyPrefabList;
+	
+	protected HashSet<GameObject> activeEnemiesSet;
+	protected float enemySpawnCooldown;
+	
+	[Header("Penguin")]
+	public int activePenguinCount = 7;
+	public GameObject penguinPrefab;
+	
+	protected HashSet<GameObject> activePenguinsSet;
+	protected float penguinSpawnCooldown;
 	
     protected virtual void Awake()
 	{
@@ -33,6 +52,8 @@ public class Map : MonoBehaviour
 		elevatorLocationPool = new List<int[]>();
 		elevatorLocation = new int[3];
 		elevatorSpawnLocationPool = new List<int[]>();
+		dropOffZoneRequiredAmount = dropOffZoneRequiredAmount
+			+ Mathf.Max((int)Mathf.Floor(DataManager.floorLevel/2), 6);
 		
 		propPool = new Dictionary<GameObject, int>();
 		for (int i=0; i<propPrefabList.Count; i++) {
@@ -48,11 +69,79 @@ public class Map : MonoBehaviour
 			playerObject.transform.position = 
 				elevatorSpawnObject.transform.position + new Vector3(0,0.31f,0);
 		}
+		
+		activeEnemiesSet = new HashSet<GameObject>();
+		activePenguinsSet = new HashSet<GameObject>();
+		
+		enemySpawnCooldown = 0;
+		penguinSpawnCooldown = 0;
+	}
+	
+	protected virtual void Update()
+	{
+		GenerateEnemies();
+		GeneratePenguins();
+		
+		enemySpawnCooldown = (enemySpawnCooldown > 0) 
+			? (enemySpawnCooldown - Time.deltaTime) : 0;
+		penguinSpawnCooldown = (penguinSpawnCooldown > 0) 
+			? (penguinSpawnCooldown - Time.deltaTime) : 0;
+	}
+	
+	protected virtual void GenerateEnemies()
+	{
+		if (activeEnemiesSet.Count < activeEnemyCount && enemySpawnCooldown <= 0) {
+			enemySpawnCooldown = 3f;
+			int mapIndex = Random.Range(0,totalCells.Count);
+			int[] cell = totalCells[mapIndex];
+			int index = Random.Range(0,enemyPrefabList.Count);
+			GameObject newEnemyObject = 
+				Instantiate(enemyPrefabList[index], 
+					transform.Find("Section"+cell[0].ToString()).Find("Grid"));
+			EnemyController newEnemy = newEnemyObject.GetComponent<EnemyController>();
+			
+			newEnemyObject.transform.localPosition = new Vector3(cell[1],0,cell[2]);
+			
+			activeEnemiesSet.Add(newEnemyObject);
+			if (newEnemy != null) {
+				newEnemy.SetMap(this);
+			}
+		}
+	}
+	
+	protected virtual void GeneratePenguins()
+	{
+		if (activePenguinsSet.Count < activeEnemyCount && penguinSpawnCooldown <= 0) {
+			penguinSpawnCooldown = 2f;
+			int mapIndex = Random.Range(0,totalCells.Count);
+			int[] cell = totalCells[mapIndex];
+			GameObject newPenguinObject = Instantiate(penguinPrefab, 
+				transform.Find("Section"+cell[0].ToString()).Find("Grid"));
+			PenguinController newPenguin = 
+				newPenguinObject.GetComponent<PenguinController>();
+			
+			newPenguinObject.transform.localPosition = new Vector3(cell[1],0,cell[2]);
+			
+			activePenguinsSet.Add(newPenguinObject);
+			if (newPenguin != null) {
+				newPenguin.SetMap(this);
+			}
+		}
+	}
+	
+	public virtual void RemoveNPC(NPCController npc)
+	{
+		if (activeEnemiesSet.Contains(npc.gameObject)) {
+			activeEnemiesSet.Remove(npc.gameObject);
+		}
+		if (activePenguinsSet.Contains(npc.gameObject)) {
+			activePenguinsSet.Remove(npc.gameObject);
+		}
 	}
 	
 	protected virtual void GenerateProps()
 	{
-		List<int[]> totalCells = new List<int[]>();
+		totalCells = new List<int[]>();
 		
 		for (int i=0; i<mapGrid.Count; i++) {
 			foreach (int[] cell in mapGrid[i]) {
@@ -90,6 +179,26 @@ public class Map : MonoBehaviour
 			elevator = elevatorObject.transform.Find("Model").GetComponent<Elevator>();
 			if (elevator != null) {
 				elevator.SetStartPosition(elevatorObject.transform.position);
+			}
+		}
+		
+		if (dropOffZonePrefab != null && dropOffZone == null) {
+			int index = Random.Range(0,elevatorLocationPool.Count);
+			int[] dropOffZoneLocation = elevatorLocationPool[index];
+			Vector3 spawnPosition = 
+				new Vector3(dropOffZoneLocation[1], 0, dropOffZoneLocation[2]);
+				
+			dropOffZoneObject = Instantiate(dropOffZonePrefab, 
+				transform.Find("Section"+dropOffZoneLocation[0].ToString()).Find("Grid"));
+			dropOffZoneObject.name = 
+				dropOffZonePrefab.name + "(" + dropOffZoneLocation[1].ToString() 
+				+ "," + dropOffZoneLocation[2].ToString() + ")";
+			dropOffZoneObject.transform.localPosition = spawnPosition;
+				
+			dropOffZone = 
+				dropOffZoneObject.GetComponent<DropOffZone>();
+			if (dropOffZone != null) {
+				dropOffZone.requiredAmount = dropOffZoneRequiredAmount;
 			}
 		}
 		
@@ -178,7 +287,7 @@ public class Map : MonoBehaviour
 				if (i == elevatorSectionIndex) {
 					int index = Random.Range(0,elevatorLocationPool.Count);
 					elevatorLocation = elevatorLocationPool[index];
-					// mapGrid[i].Remove(elevatorLocation);
+					mapGrid[i].Remove(elevatorLocation);
 				}
 				
 			}

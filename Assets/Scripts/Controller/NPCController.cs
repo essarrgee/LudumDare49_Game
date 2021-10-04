@@ -17,6 +17,8 @@ public class NPCController : Controller
 	protected float playerDistance;
 	protected float previousPlayerDistance;
 	
+	protected Map currentMap;
+	
 	protected override void Awake()
 	{
 		base.Awake();
@@ -50,6 +52,19 @@ public class NPCController : Controller
 		if (character != null) {
 			character.moveDirection = inputDirection;
 		}
+	}
+	
+	public override void DestroyController()
+	{
+		if (currentMap != null) {
+			currentMap.RemoveNPC(this);
+		}
+		base.DestroyController();
+	}
+	
+	public virtual void SetMap(Map map) 
+	{
+		this.currentMap = map;
 	}
 	
 	protected virtual void GetPlayerDistance()

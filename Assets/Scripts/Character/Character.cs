@@ -71,7 +71,7 @@ public class Character : MonoBehaviour
 			}
 		}
 		
-		if (!destroyed && currentHealth <= 0) {
+		if ((!destroyed && currentHealth <= 0) || transform.position.y <= -15f) {
 			DestroyCharacter();
 		}
 		

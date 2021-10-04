@@ -32,7 +32,7 @@ MonoBehaviour:
   leaderObject: {fileID: 0}
   followerObject: {fileID: 0}
   followDelay: 0.15
-  escapeRange: 1.5
+  escapeRange: 3
 --- !u!1001 &1019115833776462032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,16 +46,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5733473703517729963, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5733473703517729963, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5733473703517729963, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.4
+      value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 7059940637570861408, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 521737ec4e5199142b3ba6ff3711b899, type: 2}
     - target: {fileID: 8633911736164426762, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
       propertyPath: movementSpeed
       value: 3
@@ -112,6 +116,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8743992398234027578, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2638941245470387966, guid: 76b03a9730324044183a0acf739783b7, type: 3}
     m_RemovedComponents:
     - {fileID: 8633911736164426762, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}

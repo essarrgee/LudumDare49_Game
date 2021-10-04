@@ -38,8 +38,8 @@ public class PenguinController : NPCController
 			
 			if (playerDistance > escapeRange) {
 				if (currentRandomMovementCooldown <= 0 && currentRandomPauseCooldown <= 0) {
-					currentRandomMovementCooldown = Random.Range(0.5f, 1f);
-					currentRandomPauseCooldown = Random.Range(0.5f, 1f);
+					currentRandomMovementCooldown = Random.Range(0.2f, 0.4f);
+					currentRandomPauseCooldown = Random.Range(0.5f, 2f);
 					inputDirection.x = Random.Range(-1f,1f);
 					inputDirection.y = Random.Range(-1f,1f);
 				}
