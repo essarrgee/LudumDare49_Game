@@ -23,6 +23,9 @@ public class Character : MonoBehaviour
 	protected float knockbackTime;
 	protected bool destroyed;
 	
+	protected GameObject gameManagerObject;
+	protected GameManager gameManager;
+	
     protected virtual void Awake()
     {
 		rb = GetComponent<Rigidbody>();
@@ -37,6 +40,11 @@ public class Character : MonoBehaviour
 		
 		knockbackTime = 0;
 		destroyed = false;
+		
+		gameManagerObject = GameObject.FindWithTag("GameManager");
+		if (gameManagerObject != null) {
+			gameManager = gameManagerObject.GetComponent<GameManager>();
+		}
     }
 
     protected virtual void Update()
@@ -71,8 +79,12 @@ public class Character : MonoBehaviour
 			}
 		}
 		
-		if ((!destroyed && currentHealth <= 0) || transform.position.y <= -15f) {
-			DestroyCharacter();
+		if (!destroyed) {
+			if (//(!destroyed && currentHealth <= 0) || 
+			(gameManager != null && transform.position.y <= gameManager.GetLavaHeight())
+			|| (transform.position.y <= -15f)) {
+				DestroyCharacter();
+			}
 		}
 		
 		knockbackTime = (knockbackTime > 0) ? knockbackTime - Time.deltaTime : 0;

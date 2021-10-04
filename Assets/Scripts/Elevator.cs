@@ -16,6 +16,8 @@ public class Elevator : MonoBehaviour
 	public GameObject activateLightObject;
 	protected Light activateLight;
 	
+	protected AudioManager audioManager;
+	
 	public bool activated = false;
 	
     protected virtual void Awake()
@@ -32,6 +34,9 @@ public class Elevator : MonoBehaviour
 		if (gameManagerObject != null) {
 			gameManager = gameManagerObject.GetComponent<GameManager>();
 		}
+		
+		audioManager = GetComponent<AudioManager>();
+		
 		endedScene = false;
 	}
 	
@@ -69,6 +74,9 @@ public class Elevator : MonoBehaviour
 			PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
 			if (player != null) {
 				movingUp = true;
+				if (audioManager != null) {
+					audioManager.Play("Elevator");
+				}
 			}
 		}
 	}

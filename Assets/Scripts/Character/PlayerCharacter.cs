@@ -5,10 +5,14 @@ using UnityEngine;
 public class PlayerCharacter : Character
 {	
 	protected float currentHitCooldown;
+	
+	protected GameObject cameraObject;
 
     protected override void Awake()
 	{
 		base.Awake();
+		
+		cameraObject = GameObject.FindWithTag("MainCamera");
 		
 		currentHitCooldown = 0;
 	}
@@ -44,5 +48,16 @@ public class PlayerCharacter : Character
 					hitbox.knockback, hitbox.knockbackTime);
 			}
 		}
+	}
+	
+	public override void DestroyCharacter()
+	{
+		if (!destroyed && gameManager != null) {
+			gameManager.EndGame();
+		}
+		if (cameraObject != null) {
+			cameraObject.transform.SetParent(null, true);
+		}
+		base.DestroyCharacter();
 	}
 }

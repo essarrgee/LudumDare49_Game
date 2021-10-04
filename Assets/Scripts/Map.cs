@@ -35,6 +35,7 @@ public class Map : MonoBehaviour
 	[Header("Enemy")]
 	public int activeEnemyCount = 5;
 	public List<GameObject> enemyPrefabList;
+	public GameObject cautionPrefab;
 	
 	protected HashSet<GameObject> activeEnemiesSet;
 	protected float enemySpawnCooldown;
@@ -105,17 +106,36 @@ public class Map : MonoBehaviour
 			int mapIndex = Random.Range(0,totalCells.Count);
 			int[] cell = totalCells[mapIndex];
 			int index = Random.Range(0,enemyPrefabList.Count);
+			
 			GameObject newEnemyObject = 
-				Instantiate(enemyPrefabList[index], 
-					transform.Find("Section"+cell[0].ToString()).Find("Grid"));
+			Instantiate(enemyPrefabList[index], 
+				transform.Find("Section"+cell[0].ToString()).Find("Grid"));
 			EnemyController newEnemy = newEnemyObject.GetComponent<EnemyController>();
 			
 			newEnemyObject.transform.localPosition = new Vector3(cell[1],0,cell[2]);
+			newEnemyObject.SetActive(false);
 			
 			activeEnemiesSet.Add(newEnemyObject);
 			if (newEnemy != null) {
 				newEnemy.SetMap(this);
 			}
+			
+			// Spawning
+			if (cautionPrefab != null) {
+				GameObject caution = Instantiate(cautionPrefab, transform);
+				caution.transform.position = newEnemyObject.transform.position;
+				Destroy(caution, 2f);
+			}
+			StartCoroutine(SpawnEnemy(newEnemyObject));
+		}
+	}
+	
+	protected virtual IEnumerator SpawnEnemy(GameObject newEnemyObject)
+	{
+		yield return new WaitForSeconds(2f);
+		
+		if (newEnemyObject != null) {
+			newEnemyObject.SetActive(true);
 		}
 	}
 	

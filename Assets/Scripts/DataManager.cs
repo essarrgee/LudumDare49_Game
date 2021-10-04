@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DataManager
 {
-    public static int floorLevel = 1;
+    public static int floorLevel = 0;
 }

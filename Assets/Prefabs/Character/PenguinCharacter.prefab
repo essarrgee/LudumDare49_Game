@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 8609834316438724330}
   maxHealth: 100
-  movementSpeed: 4.5
+  movementSpeed: 6
   moveDirection: {x: 0, y: 0}
 --- !u!114 &4959532404347863390
 MonoBehaviour:

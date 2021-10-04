@@ -54,10 +54,12 @@ MonoBehaviour:
   - {fileID: 7957691950820682770, guid: 52ad7fbf7a85b844388375bd57e0960e, type: 3}
   - {fileID: 6794424393526403150, guid: 83b71df2638f8c84d859ac6e9a791a4b, type: 3}
   propCountList: 0a00000006000000
-  activeEnemyCount: 5
+  activeEnemyCount: 4
   enemyPrefabList:
   - {fileID: 4082941670831071327, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}
-  activePenguinCount: 4
+  - {fileID: 2173018393020632825, guid: 6bba16d4ee77f3e4c9908f642b1bac69, type: 3}
+  cautionPrefab: {fileID: 4710681921501564908, guid: 5d8f849b7ec3ab44f85a3b40499f4932, type: 3}
+  activePenguinCount: 2
   penguinPrefab: {fileID: 8788053982687853792, guid: fbb456cba056d834990616aa9aa9e286, type: 3}
 --- !u!1 &8112755898748178700
 GameObject:
