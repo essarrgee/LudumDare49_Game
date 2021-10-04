@@ -19,6 +19,11 @@ public class DropOffZone : MonoBehaviour
 		cleared = false;
 	}
 	
+	protected virtual void Update()
+	{
+		UpdateText();
+	}
+	
 	protected virtual void OnTriggerEnter(Collider collision)
 	{
 		if (!cleared && collision.gameObject != null) {
@@ -36,11 +41,20 @@ public class DropOffZone : MonoBehaviour
 		}
 	}
 	
-	protected virtual void ChangeAmount(int amount)
+	public virtual void ChangeAmount(int amount)
 	{
 		currentAmount = amount;
+	}
+	
+	protected virtual void UpdateText()
+	{
 		if (UIText != null) {
 			UIText.text = currentAmount.ToString();
 		}
+	}
+	
+	public virtual int GetCurrentAmount()
+	{
+		return currentAmount;
 	}
 }

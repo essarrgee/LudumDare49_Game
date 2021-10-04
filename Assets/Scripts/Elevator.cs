@@ -13,11 +13,20 @@ public class Elevator : MonoBehaviour
 	protected GameManager gameManager;
 	protected bool endedScene;
 	
+	public GameObject activateLightObject;
+	protected Light activateLight;
+	
+	public bool activated = false;
+	
     protected virtual void Awake()
 	{
 		movingUp = false;
 		
 		SetStartPosition(startPosition);
+		
+		if (activateLightObject != null) {
+			activateLight = activateLightObject.GetComponent<Light>();
+		}
 		
 		gameManagerObject = GameObject.FindWithTag("GameManager");
 		if (gameManagerObject != null) {
@@ -56,7 +65,7 @@ public class Elevator : MonoBehaviour
 	
 	protected virtual void OnTriggerEnter(Collider collision)
 	{
-		if (collision.gameObject != null) {
+		if (collision.gameObject != null && activated) {
 			PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
 			if (player != null) {
 				movingUp = true;
@@ -71,6 +80,14 @@ public class Elevator : MonoBehaviour
 			if (player != null) {
 				movingUp = false;
 			}
+		}
+	}
+	
+	public virtual void Activate()
+	{
+		if (activateLight != null) {
+			activated = true;
+			activateLightObject.SetActive(true);
 		}
 	}
 }

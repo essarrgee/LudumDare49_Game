@@ -89,6 +89,13 @@ public class Map : MonoBehaviour
 			? (enemySpawnCooldown - Time.deltaTime) : 0;
 		penguinSpawnCooldown = (penguinSpawnCooldown > 0) 
 			? (penguinSpawnCooldown - Time.deltaTime) : 0;
+			
+		if (dropOffZone != null 
+		&& dropOffZone.GetCurrentAmount() <= 0) {
+			if (elevator != null) {
+				elevator.Activate();
+			}
+		}
 	}
 	
 	protected virtual void GenerateEnemies()
@@ -202,6 +209,7 @@ public class Map : MonoBehaviour
 				dropOffZoneObject.GetComponent<DropOffZone>();
 			if (dropOffZone != null) {
 				dropOffZone.requiredAmount = dropOffZoneRequiredAmount;
+				dropOffZone.ChangeAmount(dropOffZoneRequiredAmount);
 			}
 		}
 		
