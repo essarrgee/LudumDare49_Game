@@ -83,13 +83,21 @@ PrefabInstance:
       propertyPath: movementSpeed
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5193097521572904468, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}
+      propertyPath: knockback
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193097521572904468, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}
+      propertyPath: knockbackTime
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 6222401388802611793, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}
       propertyPath: aggroRange
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6222401388802611793, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}
       propertyPath: chaseRange
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95183ab8c660f044d9641ce453ce32aa, type: 3}

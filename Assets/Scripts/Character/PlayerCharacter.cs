@@ -50,6 +50,19 @@ public class PlayerCharacter : Character
 		}
 	}
 	
+	protected virtual void OnTriggerEnter(Collider collision)
+	{
+		if (!destroyed && currentHitCooldown <= 0 && collision.gameObject != null) {
+			GameObject obj = collision.gameObject;
+			Hitbox hitbox = obj.GetComponent<Hitbox>();
+			if (hitbox != null) {
+				currentHitCooldown = 1f;
+				Damage(hitbox.damage, hitbox.transform, 
+					hitbox.knockback, hitbox.knockbackTime);
+			}
+		}
+	}
+	
 	public override void DestroyCharacter()
 	{
 		if (!destroyed && gameManager != null) {

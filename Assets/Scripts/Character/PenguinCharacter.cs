@@ -19,6 +19,24 @@ public class PenguinCharacter : Character
 		if (!destroyed && collision.gameObject != null) {
 			GameObject obj = collision.gameObject;
 			Destructible destructible = obj.GetComponent<Destructible>();
+			if (destructible == null) {
+				destructible = obj.transform.parent.GetComponent<Destructible>();
+			}
+			if (destructible != null && !destructible.destroyed) {
+				destructible.DestroyObject();
+				DestroyCharacter();
+			}
+		}
+	}
+	
+	protected virtual void OnTriggerEnter(Collider collision)
+	{
+		if (!destroyed && collision.gameObject != null) {
+			GameObject obj = collision.gameObject;
+			Destructible destructible = obj.GetComponent<Destructible>();
+			if (destructible == null) {
+				destructible = obj.transform.parent.GetComponent<Destructible>();
+			}
 			if (destructible != null && !destructible.destroyed) {
 				destructible.DestroyObject();
 				DestroyCharacter();

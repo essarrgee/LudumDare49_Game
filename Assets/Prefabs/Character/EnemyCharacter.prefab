@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1658432336545039722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4082941670831071327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6403af9ae08227479c53beecee164cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  knockback: 120
-  knockbackTime: 0.1
 --- !u!114 &6174391230327639210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,7 +32,69 @@ MonoBehaviour:
   followerObject: {fileID: 0}
   followDelay: 0.2
   aggroRange: 6
-  chaseRange: 12
+  chaseRange: 7
+  attackRange: 0.5
+--- !u!1 &5525473995503504873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6854360457611669055}
+  - component: {fileID: 7912293498390770107}
+  - component: {fileID: 5193097521572904468}
+  m_Layer: 0
+  m_Name: Hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6854360457611669055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5525473995503504873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4082941670831071330}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &7912293498390770107
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5525473995503504873}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.2, z: 0}
+--- !u!114 &5193097521572904468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5525473995503504873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6403af9ae08227479c53beecee164cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  knockback: 210
+  knockbackTime: 0.1
 --- !u!1001 &5726420573411509359
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,5 +179,10 @@ PrefabInstance:
 --- !u!1 &4082941670831071327 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8633911736164426800, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
+  m_PrefabInstance: {fileID: 5726420573411509359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4082941670831071330 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8633911736164426765, guid: 45f7ee383aacd694caf6128e83302c93, type: 3}
   m_PrefabInstance: {fileID: 5726420573411509359}
   m_PrefabAsset: {fileID: 0}

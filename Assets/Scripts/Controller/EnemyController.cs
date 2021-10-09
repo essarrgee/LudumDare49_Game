@@ -6,6 +6,7 @@ public class EnemyController : NPCController
 {
 	public float aggroRange = 12f;
 	public float chaseRange = 30f;
+	public float attackRange = 0.5f;
 	
 	protected bool aggro;
 	
@@ -48,10 +49,15 @@ public class EnemyController : NPCController
 			if (playerDistance <= aggroRange) {
 				aggro = true;
 			}
+			
 			if (playerDistance > chaseRange) {
 				aggro = false;
 			}
-			if (aggro && currentFollowDelay <= 0f) {
+			
+			if (playerDistance <= attackRange) {
+				inputDirection = new Vector2(0,0);
+			}
+			else if (aggro && currentFollowDelay <= 0f) {
 				inputDirection = new Vector2(direction3D.x, direction3D.z);
 			}
 			else {
